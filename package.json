@@ -11,6 +11,7 @@
     "autoprefixer": "^10.4.16",
     "esbuild": "^0.19.11",
     "postcss": "^8.4.32",
+    "preline": "^2.0.3",
     "tailwindcss": "^3.4.0"
   }
 }

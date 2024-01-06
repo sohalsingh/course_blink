@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CourseBlink</title>
+    <title>Course Blink</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,13 +11,10 @@
     <link rel="manifest" crossorigin="use-credentials" href="/manifest.json" />
   </head>
 
-  <body class="bg-gray-100">
+  <body class="bg-gray-100 dark:bg-gray-800">
     <%= render 'layouts/topbar' %>
     <%= render 'layouts/sidebar' %>
-    <div class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
-      <!-- Page Heading -->
-
-      <!-- End Page Heading -->
+    <div style="min-height:100vh;" class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
       <%= yield %>
     </div>
   </body>

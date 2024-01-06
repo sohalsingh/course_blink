@@ -18,5 +18,6 @@ module CourseBlink
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    config.hosts << "cba7-110-226-179-223.ngrok-free.app"
   end
 end
