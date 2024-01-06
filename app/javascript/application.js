@@ -3,4 +3,3 @@ import "@hotwired/turbo-rails"
 import "./controllers"
 import "preline/dist/preline"
 import './companion'
-import './dark_mode'
