@@ -1,4 +1,4 @@
-document.addEventListener("turbo:load", () => {
+document.addEventListener("DOMContentLoaded", () => {
   if (navigator.serviceWorker) {
     navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
       .then(() => navigator.serviceWorker.ready)
