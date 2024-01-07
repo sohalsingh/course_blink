@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+  postgres:
+    image: postgres:13-alpine
+    command: ["postgres", "-c", "fsync=false", "-c", "full_page_writes=off"]
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    networks:
+      - course_blink_network
+  app:
+    build:
+      context: .
+      dockerfile: app.Dockerfile
+    command: bash -c "bundle exec puma -C config/puma.rb"
+    environment:
+      PORT: 9299
+      RAILS_ENV: production
+      POSTGRES_HOST: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      RAILS_SERVE_STATIC_FILES: 'true'
+    volumes:
+      - .:/app
+    ports:
+      - "9299:9299"
+    depends_on:
+      - postgres
+    networks:
+      - course_blink_network
+
+networks:
+  course_blink_network:

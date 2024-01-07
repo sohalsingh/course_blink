@@ -81,6 +81,8 @@ test:
 #
 production:
   <<: *default
+  host: <%= ENV["POSTGRES_HOST"] %>
   database: course_blink_production
-  username: course_blink
-  password: <%= ENV["COURSE_BLINK_DATABASE_PASSWORD"] %>
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  port: 5432
