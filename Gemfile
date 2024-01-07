@@ -79,3 +79,5 @@ gem 'rails_admin', '~> 3.0'
 gem 'devise-tailwindcssed'
 gem "sassc-rails"
 gem 'activestorage'
+
+gem "cancancan", "~> 3.5"
