@@ -1,4 +1,5 @@
-if (navigator.serviceWorker) {
+document.addEventListener("DOMContentLoaded", () => {
+  if (navigator.serviceWorker) {
     navigator.serviceWorker.register("/service-worker.js", { scope: "/" })
       .then(() => navigator.serviceWorker.ready)
       .then((registration) => {
@@ -9,3 +10,4 @@ if (navigator.serviceWorker) {
         }
       }).then(() => console.log("[Companion]", "Service worker registered!"));
   }
+})

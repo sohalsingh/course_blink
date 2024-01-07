@@ -2,5 +2,9 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import "preline/dist/preline"
+import "./dark_mode"
 import './companion'
-import './dark_mode'
+
+document.addEventListener("turbo:load", function (event) {
+  HSStaticMethods.autoInit();
+});
