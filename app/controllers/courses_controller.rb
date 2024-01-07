@@ -30,7 +30,7 @@ class CoursesController < ApplicationController
     end
 
     def lessons
-
+      @lessons = @course.lessons.order(created_at: :desc)
     end
 
     private
