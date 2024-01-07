@@ -2,9 +2,12 @@
 <html>
   <head>
     <title>Course Blink</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,user-scalable=no"
+    >
     <meta name="theme-color" content="#70d8ef">
-    <link rel="manifest" crossorigin="use-credentials" href="/manifest.json" />
+    <link rel="manifest" crossorigin="use-credentials" href="/manifest.json"/>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -13,10 +16,20 @@
 
   </head>
 
-  <body class="bg-gray-100 dark:bg-gray-800">
-    <%= render 'layouts/topbar' %>
-    <%= render 'layouts/sidebar' %>
-    <div style="min-height:100vh;" class="w-full pt-10 px-4 sm:px-6 md:px-8 lg:pl-72">
+  <body
+    class="bg-gray-100 dark:bg-gray-800"
+    style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none;-o-user-select:none;"
+    unselectable="on"
+    onselectstart="return false;"
+    onmousedown="return false;"
+  >
+    <%= render "layouts/alert" %>
+    <%= render "layouts/topbar" %>
+    <%= render "layouts/sidebar" %>
+    <div
+      style="min-height:100vh;"
+      class="w-full pt-3 md:pt-7 px-4 sm:px-6 md:px-8 lg:pl-72"
+    >
       <%= yield %>
     </div>
   </body>

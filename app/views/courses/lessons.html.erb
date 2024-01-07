@@ -51,6 +51,32 @@
       ><path d="m9 18 6-6-6-6"/></svg>
     </a>
   </li>
+  <li class="inline-flex items-center">
+    <a
+      class="
+        flex items-center text-sm text-gray-500 hover:text-blue-600 focus:outline-none
+        focus:text-blue-600 dark:focus:text-blue-500
+      "
+      href="<%= course_path(@course) %>"
+    >
+      <%= @course.title %>
+      <svg
+        class="
+          flex-shrink-0 mx-2 overflow-visible h-4 w-4 text-gray-400 dark:text-neutral-600
+          dark:text-neutral-600
+        "
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      ><path d="m9 18 6-6-6-6"/></svg>
+    </a>
+  </li>
   <li
     class="
       inline-flex items-center text-sm font-semibold text-gray-800 truncate
@@ -58,7 +84,7 @@
     "
     aria-current="page"
   >
-    <%= @course.title %>
+    Lesson
   </li>
 </ol>
 <!-- Card Blog -->
@@ -73,27 +99,6 @@
           alt="Course Image"
         >
       </div>
-
-      <% if current_user.user? && current_user.enrolled_in?(@course) %>
-        <%= button_to "Un Enroll Now",
-        unenroll_course_path(@course),
-        method: :post,
-        class:
-          "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
-      <% elsif current_user.user? %>
-        <%= button_to "Enroll Now",
-        enroll_course_path(@course),
-        method: :post,
-        class:
-          "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
-      <% end %>
-
-      <% if current_user.enrolled_in?(@course) %>
-        <%= link_to "Access Course",
-        course_lesssons_path(@course),
-        class:
-          "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
-      <% end %>
     </div>
     <!-- End Col -->
     <div class="sm:order-1">

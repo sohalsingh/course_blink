@@ -10,4 +10,16 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
+
+  def gravatar
+    if self.gravatar_url.nil?
+      self.update(gravatar_url: "https://gravatar.com/avatar/#{Digest::SHA2.hexdigest self.email}?d=retro")
+    end
+    return self.gravatar_url
+  end
+
+  def enrolled_in? course
+    return self.enrollments.where(course: course).any?
+  end
+
 end
