@@ -18,4 +18,8 @@ class User < ApplicationRecord
     return self.gravatar_url
   end
 
+  def enrolled_in? course
+    return self.enrollments.where(course: course).any?
+  end
+
 end

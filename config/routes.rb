@@ -23,5 +23,7 @@ Rails.application.routes.draw do
 
   # Routes
   resources :courses
+  post 'courses/:id/enroll', to: 'courses#enroll', as: 'enroll_course'
+  get 'courses/:id/lessons', to: 'courses#lessons', as: 'course_lesssons'
 
 end
