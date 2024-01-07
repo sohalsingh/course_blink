@@ -7,6 +7,8 @@ class Course < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :video
 
+  belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
+
 
   def photo_url
     if self.photo.attached?
