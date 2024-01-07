@@ -73,12 +73,20 @@
           alt="Course Image"
         >
       </div>
-      <%= button_to "Enroll Now",
-      enroll_course_path(@course),
-      method: :post,
-      class:
-        "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600",
-      disabled: !current_user.user? %>
+
+      <% if current_user.user? && current_user.enrolled_in?(@course) %>
+        <%= button_to "Un Enroll Now",
+        unenroll_course_path(@course),
+        method: :post,
+        class:
+          "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 hover:bg-red-700 text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
+      <% elsif current_user.user? %>
+        <%= button_to "Enroll Now",
+        enroll_course_path(@course),
+        method: :post,
+        class:
+          "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
+      <% end %>
 
       <% if current_user.enrolled_in?(@course) %>
         <%= link_to "Access Course",

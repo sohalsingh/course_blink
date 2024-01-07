@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll, :lessons]
+  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons]
 
     def index
         @courses = Course.all
@@ -17,7 +17,16 @@ class CoursesController < ApplicationController
      current_user.enrollments.create(course: @course)
 
      redirect_to request.referer, notice: "You have successfully enrolled in this course"
+    end
 
+    def unenroll
+     return redirect_to request.referer, alert: "You can not enroll in this course" if !current_user.user?
+
+     return redirect_to request.referer, alert: "You have not enrolled in this course" if !current_user.enrolled_in?(@course)
+
+     current_user.enrollments.find_by(course_id: @course.id).destroy
+
+     redirect_to request.referer, notice: "You have successfully un enrolled from this course"
     end
 
     def lessons
