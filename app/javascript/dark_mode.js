@@ -81,7 +81,3 @@ document.addEventListener("turbo:load", function (event) {
   })
 })
 
-
-document.addEventListener("turbo:load", function (event) {
-  HSThemeAppearance.init();
-});
