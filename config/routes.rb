@@ -30,5 +30,6 @@ Rails.application.routes.draw do
   post 'courses/:id/unenroll', to: 'courses#unenroll', as: 'unenroll_course'
   get 'courses/:id/lessons', to: 'courses#lessons', as: 'course_lessons'
   get 'courses/:id/lessons/:lesson_id', to: 'courses#lesson_show', as: 'show_course_lesson'
+  get 'courses/:id/quizzes/:quiz_id', to: 'courses#quiz_show', as: 'show_course_quiz'
 
 end
