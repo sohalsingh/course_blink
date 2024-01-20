@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       post 'lesson_history', to: 'lesson_history#view_lesson'
+      post 'submissions', to: 'submissions#create'
     end
     resources :lessons do
       resources :quizzes, only: [:create], controller: 'quizzes' do

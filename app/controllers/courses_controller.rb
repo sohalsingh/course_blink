@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show]
+  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show, :quiz_show]
   before_action :set_lesson, only: [:lesson_show]
   before_action :set_quiz, only: [:quiz_show]
 
@@ -46,6 +46,8 @@ class CoursesController < ApplicationController
   end
 
   def quiz_show
+    @questions = @quiz.questions
+    @submissions = current_user.submissions.where(question_id: @questions.ids)
   end
 
   private
