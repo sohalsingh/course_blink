@@ -1,7 +1,8 @@
 class Course < ApplicationRecord
-  has_many :enrollments
+  has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
-  has_many :lessons
+  has_many :lessons, dependent: :destroy
+  has_many :quizzes, dependent: :destroy
 
   has_one_attached :photo
   has_one_attached :pdf
@@ -9,6 +10,28 @@ class Course < ApplicationRecord
 
   belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
 
+  def all_lessons_viewed?(user)
+    return false if user.nil?
+    self.lessons.each do |lesson|
+      return false if !lesson.viewed_lesson?(user)
+    end
+    true
+  end
+
+  def all_quizzes_attempted?(user)
+    return false if user.nil?
+    self.quizzes.each do |quiz|
+      return false if !quiz.attempted_by?(user)
+    end
+    true
+  end
+
+  def completed_by?(user)
+    return false if user.nil?
+    return false if !self.all_lessons_viewed?(user)
+    return false if !self.all_quizzes_attempted?(user)
+    true
+  end
 
   def photo_url
     if self.photo.attached?

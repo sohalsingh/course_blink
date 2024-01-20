@@ -5,6 +5,12 @@ class Lesson < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :video
 
+  has_one :quiz
+
+  def viewed_lesson?(user)
+    return false if user.nil?
+    LessonHistory.where(lesson_id: self.id, enrollment_id: user.enrollments.pluck(:id)).present?
+  end
 
   def photo_url
     if self.photo.attached?

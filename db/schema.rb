@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_20_155805) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "answers", force: :cascade do |t|
+    t.bigint "option_id", null: false
+    t.bigint "question_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["option_id"], name: "index_answers_on_option_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
   create_table "courses", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -63,6 +72,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
     t.index ["user_id"], name: "index_enrollments_on_user_id"
   end
 
+  create_table "lesson_histories", force: :cascade do |t|
+    t.bigint "lesson_id", null: false
+    t.bigint "enrollment_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enrollment_id"], name: "index_lesson_histories_on_enrollment_id"
+    t.index ["lesson_id"], name: "index_lesson_histories_on_lesson_id"
+  end
+
   create_table "lessons", force: :cascade do |t|
     t.string "title"
     t.string "description"
@@ -72,11 +90,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
     t.bigint "course_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "read_time"
     t.index ["course_id"], name: "index_lessons_on_course_id"
   end
 
   create_table "options", force: :cascade do |t|
-    t.string "content"
+    t.string "title"
     t.bigint "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,7 +103,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "content"
+    t.string "title"
     t.bigint "quiz_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -92,19 +111,22 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
   end
 
   create_table "quizzes", force: :cascade do |t|
-    t.string "title"
-    t.bigint "lesson_id", null: false
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_quizzes_on_lesson_id"
+    t.bigint "course_id", null: false
+    t.index ["course_id"], name: "index_quizzes_on_course_id"
   end
 
   create_table "submissions", force: :cascade do |t|
     t.bigint "user_id", null: false
-    t.bigint "quiz_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["quiz_id"], name: "index_submissions_on_quiz_id"
+    t.bigint "option_id", null: false
+    t.bigint "question_id", null: false
+    t.boolean "is_correct", default: false
+    t.index ["option_id"], name: "index_submissions_on_option_id"
+    t.index ["question_id"], name: "index_submissions_on_question_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
 
@@ -126,13 +148,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_07_104349) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "answers", "options"
+  add_foreign_key "answers", "questions"
   add_foreign_key "courses", "users", column: "created_by_id"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"
+  add_foreign_key "lesson_histories", "enrollments"
+  add_foreign_key "lesson_histories", "lessons"
   add_foreign_key "lessons", "courses"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "quizzes"
-  add_foreign_key "quizzes", "lessons"
-  add_foreign_key "submissions", "quizzes"
+  add_foreign_key "quizzes", "courses"
+  add_foreign_key "submissions", "options"
+  add_foreign_key "submissions", "questions"
   add_foreign_key "submissions", "users"
 end
