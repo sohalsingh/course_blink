@@ -14,6 +14,9 @@ Rails.application.routes.draw do
   root to: "home#index"
   # quiz model api
   namespace :api do
+    namespace :v1 do
+      post 'lesson_history', to: 'lesson_history#view_lesson'
+    end
     resources :lessons do
       resources :quizzes, only: [:create], controller: 'quizzes' do
         post 'generate_quiz', on: :member

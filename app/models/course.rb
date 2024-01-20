@@ -9,6 +9,13 @@ class Course < ApplicationRecord
 
   belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
 
+  def all_lessons_viewed?(user)
+    return false if user.nil?
+    self.lessons.each do |lesson|
+      return false if !lesson.viewed_lesson?(user)
+    end
+    true
+  end
 
   def photo_url
     if self.photo.attached?

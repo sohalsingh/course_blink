@@ -6,6 +6,11 @@ class Lesson < ApplicationRecord
   has_one_attached :video
 
 
+  def viewed_lesson?(user)
+    return false if user.nil?
+    LessonHistory.where(lesson_id: self.id, enrollment_id: user.enrollments.pluck(:id)).present?
+  end
+
   def photo_url
     if self.photo.attached?
       Rails.application.routes.url_helpers.rails_blob_path(self.photo, only_path: true)

@@ -112,7 +112,28 @@
   </li>
 </ol>
 <!-- Card Blog -->
-<div class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
+<div
+  class="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto"
+  data-controller="lesson-history"
+>
+  <input
+    data-lesson-history-target="readTime"
+    hidden
+    readonly
+    value="<%= @lesson.read_time %>"
+  >
+  <input
+    data-lesson-history-target="enrollment"
+    hidden
+    readonly
+    value="<%= @enrollment.id %>"
+  >
+  <input
+    data-lesson-history-target="lesson"
+    hidden
+    readonly
+    value="<%= @lesson.id %>"
+  >
   <!-- Grid -->
   <div class="grid sm:grid-cols-2 sm:items-center gap-8">
     <div class="sm:order-2">
@@ -171,9 +192,7 @@
 
         <div class="ms-3 sm:ms-4">
           <p class="sm:mb-1 font-semibold text-gray-800 dark:text-gray-200">
-            <%= @lesson.course.created_by.name.capitalize 
-            
-            %>
+            <%= @lesson.course.created_by.name.capitalize %>
           </p>
           <p class="text-xs text-gray-500">
             <%= @lesson.course.created_by.role.capitalize %>

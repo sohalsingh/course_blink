@@ -162,10 +162,22 @@
       <div
         style="border-radius: 10px; justify-content: space-between;"
         class="
-          flex flex-col bg-white border shadow-sm rounded-3xl p-4 md:p-5 dark:bg-slate-900
-          dark:border-gray-700 dark:shadow-slate-700/[.7]
+          overflow-hidden relative flex flex-col bg-white border shadow-sm rounded-3xl p-4
+          md:p-5 dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]
         "
       >
+        <% if lesson.viewed_lesson? current_user %>
+          <div class="absolute right-0 top-0 h-16 w-16">
+            <div
+              class="
+                absolute transform rotate-45 bg-green-600 text-center text-white font-semibold
+                py-1 right-[-45px] top-[22px] w-[170px]
+              "
+            >
+              Viewed
+            </div>
+          </div>
+        <% end %>
         <div>
           <h3 class="text-lg font-bold text-gray-800 dark:text-white">
             <%= lesson.title %>

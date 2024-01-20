@@ -32,6 +32,7 @@ class CoursesController < ApplicationController
 
     def lessons
       @lessons = @course.lessons.order(:created_at)
+      @enrollment = Enrollment.find_by(course_id: @course.id, user_id: current_user.id)
     end
 
     def lesson_show
@@ -39,7 +40,7 @@ class CoursesController < ApplicationController
 
       # Next lesson after @lesson in @lessons
       @next_lesson = @lessons.where('created_at > ?', @lesson.created_at).order(:created_at).first
-
+      @enrollment = Enrollment.find_by(course_id: @course.id, user_id: current_user.id)
     end
 
     private
