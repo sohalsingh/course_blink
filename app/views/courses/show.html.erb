@@ -88,9 +88,9 @@
           "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 hover:bg-blue-700 text-white disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
       <% end %>
 
-      <% if current_user.enrolled_in?(@course) %>
+      <% if current_user.user? && current_user.enrolled_in?(@course) %>
         <%= link_to "Access Course",
-        course_lesssons_path(@course),
+        course_lessons_path(@course),
         class:
           "w-full justify-center mt-4 py-3 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" %>
       <% end %>
@@ -122,31 +122,31 @@
       >
         <%= @course.description %>
       </p>
-      <!-- Avatar -->
-      <% if @course.created_by.present? %>
-        <div class="mt-6 sm:mt-10 flex items-center">
-          <div class="flex-shrink-0">
-            <img
-              class="h-10 w-10 sm:h-14 sm:w-14 rounded-full"
-              src="<%= @course.created_by.gravatar %>"
-              alt="Image Description"
-            >
-          </div>
 
-          <div class="ms-3 sm:ms-4">
-            <p class="sm:mb-1 font-semibold text-gray-800 dark:text-gray-200">
-              <%= @course.created_by.name %>
-            </p>
-            <p class="text-xs text-gray-500">
-              <%= @course.created_by.role.capitalize %>
-            </p>
-          </div>
-        </div>
-      <% end %>
-      <!-- End Avatar -->
     </div>
     <!-- End Col -->
   </div>
-  <!-- End Grid -->
+  <!-- End Grid --> <!-- Avatar -->
+  <% if @course.created_by.present? %>
+    <div class="mt-6 sm:mt-10 flex items-center">
+      <div class="flex-shrink-0">
+        <img
+          class="h-10 w-10 sm:h-14 sm:w-14 rounded-full"
+          src="<%= @course.created_by.gravatar %>"
+          alt="Image Description"
+        >
+      </div>
+
+      <div class="ms-3 sm:ms-4">
+        <p class="sm:mb-1 font-semibold text-gray-800 dark:text-gray-200">
+          <%= @course.created_by.name.capitalize %>
+        </p>
+        <p class="text-xs text-gray-500">
+          <%= @course.created_by.role.capitalize %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+  <!-- End Avatar -->
 </div>
 <!-- End Card Blog -->

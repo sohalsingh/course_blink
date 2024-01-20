@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   resources :courses
   post 'courses/:id/enroll', to: 'courses#enroll', as: 'enroll_course'
   post 'courses/:id/unenroll', to: 'courses#unenroll', as: 'unenroll_course'
-  get 'courses/:id/lessons', to: 'courses#lessons', as: 'course_lesssons'
+  get 'courses/:id/lessons', to: 'courses#lessons', as: 'course_lessons'
+  get 'courses/:id/lessons/:lesson_id', to: 'courses#lesson_show', as: 'show_course_lesson'
 
 end

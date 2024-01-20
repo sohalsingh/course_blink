@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons]
+  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show]
+  before_action :set_lesson, only: [:lesson_show]
 
     def index
         @courses = Course.all
@@ -30,10 +31,26 @@ class CoursesController < ApplicationController
     end
 
     def lessons
-      @lessons = @course.lessons.order(created_at: :desc)
+      @lessons = @course.lessons.order(:created_at)
+    end
+
+    def lesson_show
+      @lessons = @course.lessons.order(:created_at)
+
+      # Next lesson after @lesson in @lessons
+      @next_lesson = @lessons.where('created_at > ?', @lesson.created_at).order(:created_at).first
+
     end
 
     private
+
+    def set_lesson
+      @lesson = Lesson.find_by(id: params[:lesson_id])
+
+      if @lesson.nil?
+        return redirect_to 404
+      end
+    end
 
     def set_course
       @course = Course.find_by(id: params[:id])
