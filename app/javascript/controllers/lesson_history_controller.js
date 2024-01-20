@@ -3,12 +3,13 @@ import { Controller } from "@hotwired/stimulus"
 // Connects to data-controller="lesson-history"
 export default class extends Controller {
 
-  static targets = ["readTime", "enrollment", "lesson"]
+  static targets = ["readTime", "enrollment", "lesson", "viewedLesson"]
 
   readTime = 0;
   enrollment = null;
   lesson = null;
   storeLessonHistoryTimer = null;
+  viewedLesson = false;
 
   connect() {
     console.log("Connected to Lesson History")
@@ -19,13 +20,14 @@ export default class extends Controller {
       this.enrollment = parseInt(this.enrollmentTarget.value);
     if (this.lessonTarget)
       this.lesson = parseInt(this.lessonTarget.value);
+    if (this.viewedLessonTarget)
+      this.viewedLesson = this.viewedLessonTarget.value === "true";
 
-    if (this.readTime) {
+    if (this.readTime && this.viewedLesson === false) {
       const milliseconds = this.readTime * 60 * 1000;
       this.storeLessonHistoryTimer = setTimeout(() => {
         this.storeLessonHistory();
       }, milliseconds);
-
     }
 
   }
@@ -45,10 +47,11 @@ export default class extends Controller {
     })
       .then(response => response.json())
       .then(data => {
-        console.log("API Response:", data);
 
-        if (data) {
+        if (data && data.message === "Lesson History Saved!") {
           clearTimeout(this.storeLessonHistoryTimer);
+
+          this.viewedLesson = true;
         }
       })
       .catch(error => {

@@ -134,6 +134,12 @@
     readonly
     value="<%= @lesson.id %>"
   >
+  <input
+    data-lesson-history-target="viewedLesson"
+    hidden
+    readonly
+    value="<%= @lesson.viewed_lesson? current_user %>"
+  >
   <!-- Grid -->
   <div class="grid sm:grid-cols-2 sm:items-center gap-8">
     <div class="sm:order-2">
