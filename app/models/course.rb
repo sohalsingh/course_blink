@@ -18,6 +18,21 @@ class Course < ApplicationRecord
     true
   end
 
+  def all_quizzes_attempted?(user)
+    return false if user.nil?
+    self.quizzes.each do |quiz|
+      return false if !quiz.attempted_by?(user)
+    end
+    true
+  end
+
+  def completed_by?(user)
+    return false if user.nil?
+    return false if !self.all_lessons_viewed?(user)
+    return false if !self.all_quizzes_attempted?(user)
+    true
+  end
+
   def photo_url
     if self.photo.attached?
       Rails.application.routes.url_helpers.rails_blob_path(self.photo, only_path: true)

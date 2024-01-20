@@ -6,7 +6,7 @@
       dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]
     "
   >
-    <% if course.all_lessons_viewed? current_user %>
+    <% if course.completed_by? current_user %>
       <div class="absolute right-0 top-0 h-16 w-16">
         <div
           class="

@@ -46,6 +46,10 @@ class CoursesController < ApplicationController
   end
 
   def quiz_show
+    if @quiz.attempted_by? current_user
+      return redirect_to course_lessons_path(@course), alert: "You have already attempted this quiz"
+    end
+
     @questions = @quiz.questions
     @submissions = current_user.submissions.where(question_id: @questions.ids)
   end
