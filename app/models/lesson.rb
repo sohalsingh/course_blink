@@ -5,6 +5,7 @@ class Lesson < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :video
 
+  has_one :quiz
 
   def viewed_lesson?(user)
     return false if user.nil?

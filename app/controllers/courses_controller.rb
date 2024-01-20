@@ -33,6 +33,7 @@ class CoursesController < ApplicationController
     def lessons
       @lessons = @course.lessons.order(:created_at)
       @enrollment = Enrollment.find_by(course_id: @course.id, user_id: current_user.id)
+      @quizzes = @course.quizzes
     end
 
     def lesson_show

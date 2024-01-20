@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_20_135541) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_20_153043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -86,7 +86,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_135541) do
   end
 
   create_table "options", force: :cascade do |t|
-    t.string "content"
+    t.string "title"
     t.bigint "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -94,7 +94,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_135541) do
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "content"
+    t.string "title"
     t.bigint "quiz_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -102,11 +102,11 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_135541) do
   end
 
   create_table "quizzes", force: :cascade do |t|
-    t.string "title"
-    t.bigint "lesson_id", null: false
+    t.string "title", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["lesson_id"], name: "index_quizzes_on_lesson_id"
+    t.bigint "course_id", null: false
+    t.index ["course_id"], name: "index_quizzes_on_course_id"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -144,7 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_135541) do
   add_foreign_key "lessons", "courses"
   add_foreign_key "options", "questions"
   add_foreign_key "questions", "quizzes"
-  add_foreign_key "quizzes", "lessons"
+  add_foreign_key "quizzes", "courses"
   add_foreign_key "submissions", "quizzes"
   add_foreign_key "submissions", "users"
 end

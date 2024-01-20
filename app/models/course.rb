@@ -1,7 +1,8 @@
 class Course < ApplicationRecord
-  has_many :enrollments
+  has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
-  has_many :lessons
+  has_many :lessons, dependent: :destroy
+  has_many :quizzes, dependent: :destroy
 
   has_one_attached :photo
   has_one_attached :pdf
