@@ -5,6 +5,10 @@ class Lesson < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :video
 
+  attr_accessor :remove_photo
+  attr_accessor :remove_pdf
+  attr_accessor :remove_video
+
   def viewed_lesson?(user)
     return false if user.nil?
     LessonHistory.where(lesson_id: self.id, enrollment_id: user.enrollments.pluck(:id)).present?

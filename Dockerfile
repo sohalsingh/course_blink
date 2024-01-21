@@ -4,6 +4,7 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
   build-essential nodejs \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+RUN apt install imagemagick libvips
 
 WORKDIR /app
 COPY Gemfile /app/Gemfile

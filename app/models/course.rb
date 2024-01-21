@@ -8,6 +8,10 @@ class Course < ApplicationRecord
   has_one_attached :pdf
   has_one_attached :video
 
+  attr_accessor :remove_photo
+  attr_accessor :remove_pdf
+  attr_accessor :remove_video
+
   belongs_to :created_by, class_name: "User", foreign_key: "created_by_id"
 
   def all_lessons_viewed?(user)

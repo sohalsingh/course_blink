@@ -7,6 +7,7 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
   libxrender1 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+RUN apt install imagemagick libvips
 RUN npm install -g yarn@1
 
 WORKDIR /app
