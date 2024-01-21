@@ -1,5 +1,6 @@
 FROM ruby:3.1.0
 
+RUN apt install imagemagick libvips
 # Install node 18-LTS and yarn
 RUN curl -sL https://deb.nodesource.com/setup_18.x | bash -
 RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
@@ -7,7 +8,6 @@ RUN apt-get update -qq && apt-get install -qq --no-install-recommends \
   libxrender1 \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
-RUN apt install imagemagick libvips
 RUN npm install -g yarn@1
 
 WORKDIR /app
