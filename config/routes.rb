@@ -33,4 +33,7 @@ Rails.application.routes.draw do
   get 'courses/:id/lessons/:lesson_id', to: 'courses#lesson_show', as: 'show_course_lesson'
   get 'courses/:id/quizzes/:quiz_id', to: 'courses#quiz_show', as: 'show_course_quiz'
 
+  # Search
+  resources :search, only: [:index]
+
 end

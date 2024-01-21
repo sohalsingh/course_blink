@@ -97,6 +97,24 @@
         <% end %>
       </li>
 
+      <li>
+        <%= link_to search_index_path, data: { turbolinks: false }, class:"flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-gray-900 #{(request.path.include? search_index_path) ? "dark:bg-gray-900 dark:text-white" : "dark:bg-gray-800 dark:text-slate-400"}" do %>
+          <svg
+            class="w-3.5 h-3.5"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+            ></path>
+          </svg>
+          Search
+        <% end %>
+      </li>
+
       <% if current_user.admin? %>
         <li><a
             class="
