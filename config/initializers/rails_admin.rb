@@ -39,4 +39,53 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.model 'Lesson' do
+    exclude_fields :photo, :pdf, :video
+
+    field :photo, :active_storage do
+      delete_method :remove_photo
+      pretty_value do
+        if bindings[:object].photo.attached?
+          path = Rails.application.routes.url_helpers.rails_blob_path(bindings[:object].photo.variant(resize: '100x100'), only_path: true)
+          bindings[:view].content_tag(:a, bindings[:view].image_tag(path, class: 'thumbnail'), href: path, target: '_blank')
+        else
+          'No photo'
+        end
+      end
+    end
+
+    field :pdf, :active_storage do
+      delete_method :remove_pdf
+    end
+
+    field :video, :active_storage do
+      delete_method :remove_video
+    end
+  end
+
+  config.model 'Course' do
+    exclude_fields :photo, :pdf, :video
+
+    field :photo, :active_storage do
+      delete_method :remove_photo
+      pretty_value do
+        if bindings[:object].photo.attached?
+          path = Rails.application.routes.url_helpers.rails_blob_path(bindings[:object].photo.variant(resize: '100x100'), only_path: true)
+          bindings[:view].content_tag(:a, bindings[:view].image_tag(path, class: 'thumbnail'), href: path, target: '_blank')
+        else
+          'No photo'
+        end
+      end
+    end
+
+    field :pdf, :active_storage do
+      delete_method :remove_pdf
+    end
+
+    field :video, :active_storage do
+      delete_method :remove_video
+    end
+  end
+
 end
