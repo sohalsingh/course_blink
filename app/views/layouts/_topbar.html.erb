@@ -1,8 +1,8 @@
 <header
   class="
     sticky top-0 inset-x-0 flex flex-wrap sm:justify-start sm:flex-nowrap z-[48]
-    w-full bg-orange border-b text-sm py-2.5 sm:py-4 lg:pl-64 bg-gray-100 dark:bg-gray-800
-    dark:border-gray-700
+    w-full bg-orange border-b text-sm py-2.5 sm:py-4 lg:pl-64 bg-gray-100
+    dark:bg-gray-800 dark:border-gray-700
   "
 >
   <nav
@@ -49,38 +49,48 @@
       </div>
 
       <div class="hidden sm:block">
-        <label for="icon" class="sr-only">Search</label>
-        <div class="relative">
-          <div
-            class="
-              absolute inset-y-0 left-0 flex items-center pointer-events-none z-20 pl-4
-            "
-          >
-            <svg
-              class="h-4 w-4 text-gray-400"
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
+        <% if @allow_search.present? and @allow_search %>
+          <label for="icon" class="sr-only">Search</label>
+          <div class="relative">
+            <div
+              class="
+                absolute inset-y-0 left-0 flex items-center pointer-events-none z-20 pl-4
+              "
             >
-              <path
-                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-              />
-            </svg>
+              <svg
+                class="h-4 w-4 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
+                />
+              </svg>
+            </div>
+            <% if request.path == root_path %>
+              <%= form_with(url: root_path, method: "GET", data: { turbo_frame: "home_courses", turbo_action: "search"}) do |form| %>
+                <%= form.text_field :query,
+                                id: "icon",
+                                placeholder: "Search",
+                                value: params[:query],
+                                class:
+                                  "py-2 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-md text-sm  focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800  dark:border-gray-700 dark:text-gray-400" %>
+              <% end %>
+            <% elsif request.path == courses_path %>
+              <%= form_with(url: courses_path, method: "GET", data: { turbo_frame: "courses", turbo_action: "search" }) do |form| %>
+                <%= form.text_field :query,
+                                id: "icon",
+                                placeholder: "Search",
+                                value: params[:query],
+                                class:
+                                  " py-2 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-md text-sm  focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800  dark:border-gray-700 dark:text-gray-400" %>
+              <% end %>
+            <% end %>
           </div>
-          <input
-            type="text"
-            id="icon"
-            name="icon"
-            class="
-              py-2 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-md text-sm
-              focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800
-              dark:border-gray-700 dark:text-gray-400
-            "
-            placeholder="Search"
-          >
-        </div>
+        <% end %>
       </div>
 
       <div class="flex flex-row items-center justify-end gap-2">
@@ -109,7 +119,6 @@
             />
           </svg>
         </button>
-
         -->
         <button
           type="button"

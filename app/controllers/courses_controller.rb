@@ -4,7 +4,13 @@ class CoursesController < ApplicationController
   before_action :set_quiz, only: [:quiz_show]
 
   def index
-      @courses = Course.all
+    @courses = Course.all
+    if params[:query].present?
+      @courses = Course.where("title like ?", "%#{params[:query]}%").order(created_at: :desc)
+    else
+      @courses = Course.order(created_at: :desc)
+    end
+    @allow_search = true
   end
 
   def show

@@ -15,3 +15,6 @@ application.register("hello", HelloController)
 
 import LessonHistoryController from "./lesson_history_controller"
 application.register("lesson-history", LessonHistoryController)
+
+import SearchController from "./search_controller"
+application.register("search", SearchController)
