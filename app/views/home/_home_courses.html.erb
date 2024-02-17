@@ -1,0 +1,17 @@
+<%= turbo_frame_tag "home_courses" do %>
+  <div>
+    <div class="py-2">
+      <h1 class="text-2xl dark:text-gray-100 text-gray-900 mb-2">Latest Courses</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <%= render partial: "home/courses", locals: { courses: @courses } %>
+      </div>
+    </div>
+
+    <div class="py-4">
+      <h1 class="text-2xl dark:text-gray-100 text-gray-900 mb-2">Enrolled Courses</h1>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <%= render partial: "home/courses", locals: { courses: @enrolled_courses } %>
+      </div>
+    </div>
+  </div>
+<% end %>

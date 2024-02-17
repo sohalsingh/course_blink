@@ -4,7 +4,15 @@ class CoursesController < ApplicationController
   before_action :set_quiz, only: [:quiz_show]
 
   def index
-      @courses = Course.all
+    @courses = Course.all
+    if params[:query].present?
+      @courses = Course.search_by_title_and_description(params[:query]).order(created_at: :desc)
+      @most_viewed_courses = Course.most_viewed(params[:query])
+    else
+      @courses = Course.order(created_at: :desc)
+      @most_viewed_courses = Course.most_viewed
+    end
+    @allow_search = true
   end
 
   def show
@@ -64,12 +72,18 @@ class CoursesController < ApplicationController
     end
   end
 
+  def log_impression
+    @course.course_impressions.create(ip_address: request.remote_ip, user_id: current_user.id, viewed_at: Time.now)
+  end
+
   def set_course
     @course = Course.find_by(id: params[:id])
 
     if @course.nil?
       return redirect_to 404
     end
+
+    log_impression
   end
 
   def set_quiz

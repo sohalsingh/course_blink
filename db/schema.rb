@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_01_20_155805) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_17_134620) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,17 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_155805) do
     t.datetime "updated_at", null: false
     t.index ["option_id"], name: "index_answers_on_option_id"
     t.index ["question_id"], name: "index_answers_on_question_id"
+  end
+
+  create_table "course_impressions", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "viewed_at"
+    t.string "ip_address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_impressions_on_course_id"
+    t.index ["user_id"], name: "index_course_impressions_on_user_id"
   end
 
   create_table "courses", force: :cascade do |t|
@@ -102,6 +113,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_155805) do
     t.index ["question_id"], name: "index_options_on_question_id"
   end
 
+  create_table "pg_search_documents", force: :cascade do |t|
+    t.text "content"
+    t.string "searchable_type"
+    t.bigint "searchable_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "title"
     t.bigint "quiz_id", null: false
@@ -150,6 +170,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_01_20_155805) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "answers", "options"
   add_foreign_key "answers", "questions"
+  add_foreign_key "course_impressions", "courses"
+  add_foreign_key "course_impressions", "users"
   add_foreign_key "courses", "users", column: "created_by_id"
   add_foreign_key "enrollments", "courses"
   add_foreign_key "enrollments", "users"
