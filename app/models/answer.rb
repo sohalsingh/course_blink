@@ -6,7 +6,11 @@ class Answer < ApplicationRecord
   validate :validate_option
 
   def title
-    option.title
+    if option.present?
+      option.title
+    else 
+      nil
+    end
   end
 
   private
