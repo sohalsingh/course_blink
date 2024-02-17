@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   has_many :users, through: :enrollments
   has_many :lessons, dependent: :destroy
   has_many :quizzes, dependent: :destroy
+  has_many :course_impressions, dependent: :destroy
 
   has_one_attached :photo
   has_one_attached :pdf
@@ -53,5 +54,19 @@ class Course < ApplicationRecord
     else
       nil
     end
+  end
+
+  # To get most viewed courses
+  def self.most_viewed(query=nil, limit = 100)
+    # Get filtered courses or all courses
+    filtered_courses = query.present? ? search_by_title_and_description(query).ids : Course.ids
+  
+    # Get most viewed courses
+    Course.where(id: filtered_courses)
+          .joins(:course_impressions)
+          .select('courses.*, COUNT(course_impressions.id) AS views_count')
+          .group('courses.id')
+          .order('views_count DESC')
+          .limit(limit)
   end
 end
