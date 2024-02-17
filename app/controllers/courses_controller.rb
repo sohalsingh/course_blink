@@ -6,7 +6,7 @@ class CoursesController < ApplicationController
   def index
     @courses = Course.all
     if params[:query].present?
-      @courses = Course.where("title like ?", "%#{params[:query]}%").order(created_at: :desc)
+      @courses = Course.search_by_title_and_description(params[:query]).order(created_at: :desc)
     else
       @courses = Course.order(created_at: :desc)
     end

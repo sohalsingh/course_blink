@@ -1,4 +1,14 @@
 class Course < ApplicationRecord
+  include PgSearch::Model
+  multisearchable against: [:title, :description]
+
+  # also search on associated lessons
+  pg_search_scope :search_by_title_and_description, against: [:title, :description],
+    associated_against: {
+      lessons: [:title, :description]
+    }
+    
+
   has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
   has_many :lessons, dependent: :destroy

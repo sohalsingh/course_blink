@@ -71,20 +71,22 @@
               </svg>
             </div>
             <% if request.path == root_path %>
-              <%= form_with(url: root_path, method: "GET", data: { turbo_frame: "home_courses"}) do |form| %>
+              <%= form_with(url: root_path, method: "GET", data: { controller: "search", turbo_frame: "home_courses"}) do |form| %>
                 <%= form.text_field :query,
                                 id: "icon",
                                 placeholder: "Search",
                                 value: params[:query],
+                                data: { action: "input->search#search" },
                                 class:
                                   "py-2 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-md text-sm  focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800  dark:border-gray-700 dark:text-gray-400" %>
               <% end %>
             <% elsif request.path == courses_path %>
-              <%= form_with(url: courses_path, method: "GET", data: { turbo_frame: "courses"}) do |form| %>
+              <%= form_with(url: courses_path, method: "GET", data: { controller: "search", turbo_frame: "courses"}) do |form| %>
                 <%= form.text_field :query,
                                 id: "icon",
                                 placeholder: "Search",
                                 value: params[:query],
+                                data: { action: "input->search#search" },
                                 class:
                                   " py-2 px-4 pl-11 block w-full border-gray-200 shadow-sm rounded-md text-sm  focus:z-10 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800  dark:border-gray-700 dark:text-gray-400" %>
               <% end %>
