@@ -83,3 +83,7 @@ gem 'activestorage'
 gem "cancancan", "~> 3.5"
 
 gem "pg_search", "~> 2.3"
+
+gem "wicked_pdf", "~> 2.7"
+
+gem "wkhtmltopdf-binary", "~> 0.12.6"

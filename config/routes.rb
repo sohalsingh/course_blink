@@ -32,6 +32,10 @@ Rails.application.routes.draw do
   get 'courses/:id/lessons', to: 'courses#lessons', as: 'course_lessons'
   get 'courses/:id/lessons/:lesson_id', to: 'courses#lesson_show', as: 'show_course_lesson'
   get 'courses/:id/quizzes/:quiz_id', to: 'courses#quiz_show', as: 'show_course_quiz'
+  get 'courses/:id/certificate.pdf', to: 'courses#certificate', as: 'course_certificate'
+
+
+  get 'verify_certificate/:data', to: 'certificates#verify', as: 'verify_certificate'
 
   # Search
   resources :search, only: [:index]

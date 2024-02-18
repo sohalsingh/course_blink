@@ -1,5 +1,5 @@
 class CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show, :quiz_show]
+  before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show, :quiz_show, :certificate]
   before_action :set_lesson, only: [:lesson_show]
   before_action :set_quiz, only: [:quiz_show]
 
@@ -16,6 +16,7 @@ class CoursesController < ApplicationController
   end
 
   def show
+    log_impression
   end
 
 
@@ -62,7 +63,31 @@ class CoursesController < ApplicationController
     @submissions = current_user.submissions.where(question_id: @questions.ids)
   end
 
+  def certificate
+    # check if user is enrolled in the course
+    return redirect_to course_lessons_path(@course), alert: "You are not enrolled in this course" if !current_user.enrolled_in? @course
+    # check if user has completed the course
+    # return redirect_to course_lessons_path(@course), alert: "You have not completed this course" if !@course.completed_by? current_user
+    @encrypted_data = encrypt_course_and_user_id
+    @user = current_user
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "Course " + @course.title + " Certficate", template: "pdfs/certificate", page_size: 'A4', orientation: "Landscape", lowquality: true, delete_temporary_files: true
+      end
+    end
+  end
+
   private
+
+  def encrypt_course_and_user_id
+    course_id = @course.id
+    user_id = current_user.id
+
+    str = @course_id.to_s + "_" + @user_id.to_s
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
+    crypt.encrypt_and_sign(str)
+  end
 
   def set_lesson
     @lesson = Lesson.find_by(id: params[:lesson_id])
@@ -82,8 +107,6 @@ class CoursesController < ApplicationController
     if @course.nil?
       return redirect_to 404
     end
-
-    log_impression
   end
 
   def set_quiz
