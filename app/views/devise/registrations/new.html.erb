@@ -1,4 +1,4 @@
-<div class="w-full max-w-xs mx-auto align-baseline mx-auto align-baseline">
+<div class="w-full max-w-xs align-baseline mx-auto">
   <div class="flex items-center justify-center my-4">
     <img src="<%= image_path "icon.png"%>" alt="Course Blink" class="w-14 h-14">
   </div>
@@ -17,6 +17,17 @@
         ) do |f| %>
 
     <%= devise_error_messages! %>
+
+    <div class="mb-4">
+      <%= f.label :name,
+              class: "block font-bold mb-2 text-gray-700 dark:text-gray-300 text-sm" %>
+      <%= f.text_field :name,
+                   autocomplete: "name",
+                   placeholder: "Enter your name",
+                   required: true,
+                   class:
+                     "appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 leading-tight focus:outline-none shadow focus:shadow-outline" %>
+    </div>
 
     <div class="mb-4">
       <%= f.label :email,
@@ -44,7 +55,7 @@
 
     <div class="mb-4">
       <%= f.label :password_confirmation,
-              class: "block font-bold mb-2 text-gray-700 text-sm" %>
+              class: "block font-bold mb-2 text-gray-700 dark:text-gray-300 text-sm" %>
       <%= f.password_field :password_confirmation,
                        autocomplete: "new-password",
                        placeholder: "Confirm your password",

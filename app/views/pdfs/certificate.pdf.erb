@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Course
+      <%= @course.title %>
+      Certificate</title>
+    <meta charset="utf-8"/>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <%= wicked_pdf_stylesheet_link_tag "application" -%>
+
+    <style>
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        color: black;
+        display: flex;
+        font-family: Georgia, serif;
+        font-size: 24px;
+        text-align: center;
+        height: 100vh;
+        width: 100%;
+        padding: 10px;
+      }
+      .container {
+        border: 20px solid #6e7ce5;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      .logo {
+        color: #dba0ff;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .marquee {
+        color: #dba0ff;
+        font-size: 48px;
+        margin: 20px;
+      }
+      .assignment {
+        margin: 20px;
+      }
+      .person {
+        border-bottom: 2px solid black;
+        font-size: 32px;
+        font-style: italic;
+        margin: 20px auto;
+        width: 400px;
+      }
+      .reason {
+        margin: 20px 20px 60px 20px;
+      }
+
+      .verifiy_certificate{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        font-family: 'Lato', sans-serif;
+        font-size: 14px;
+      }
+      .qr_code{
+        width: 200px;
+        height: 200px;
+      }
+    </style>
+  </head>
+
+  <% @url = verify_certificate_url(@encrypted_data) %>
+  <body>
+    <div class="container">
+      <div
+        style="flex-direction: column; align-items: center; justify-content: center; color: #dba0ff; display: flex;"
+        class="logo"
+      >
+        <%= wicked_pdf_image_tag(
+          asset_url("icon.png"),
+          alt: "Course Blink",
+          width: "100",
+          height: "100",
+        ) %>
+        <span>Course Blink</span>
+      </div>
+
+      <div class="marquee">Certificate of Completion</div>
+
+      <div class="assignment">This certificate is presented to</div>
+
+      <div class="person"><%= @user.name %></div>
+
+      <div class="reason">
+        For successful completion of the course
+        <i><b><%= @course.title %></b></i>
+      </div>
+
+      <div class="verifiy_certificate">
+        <%= wicked_pdf_image_tag(
+          "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{@url}",
+          alt: "QR Code",
+          class: "qr_code",
+        ) %>
+        <span>Scan QR code to verify certificate</span>
+      </div>
+    </div>
+  </body>
+</html>
