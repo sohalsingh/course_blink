@@ -109,13 +109,13 @@ class CoursesController < ApplicationController
     user_id = current_user.id
 
     str = course_id.to_s + "_" + user_id.to_s
-    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
+    crypt = ActiveSupport::MessageEncryptor.new(ENCRYPTION_KEY[0..31])
     encrypted_str = crypt.encrypt_and_sign(str)
     Base64.encode64(encrypted_str)
   end
 
   def decrypt_course_and_user_id
-    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
+    crypt = ActiveSupport::MessageEncryptor.new(ENCRYPTION_KEY[0..31])
     if params[:data].nil?
       return [nil, nil]
     end
