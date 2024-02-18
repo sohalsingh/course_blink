@@ -73,7 +73,7 @@ class CoursesController < ApplicationController
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "Course " + @course.title + " Certficate", template: "pdfs/certificate", page_size: 'A4', orientation: "Landscape", lowquality: true, delete_temporary_files: true
+        render pdf: "Course " + @course.title + " Certficate", template: "pdfs/certificate", page_size: 'A4', orientation: "Landscape", lowquality: true, delete_temporary_files: true, zoom: 1
       end
     end
   end

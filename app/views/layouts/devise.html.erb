@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SalesDashboard</title>
+    <title>Course Blink</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -9,16 +9,28 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
-  <body>
-
-    <div
-      class="
-        w-full pt-6 min-h-screen flex flex-col items-center justify-center bg-gray-100
-        dark:bg-gray-800
-      "
-    >
-
-      <%= yield %>
-    </div>
-  </body>
+  <% if current_user.present? %>
+    <body class="bg-gray-100 dark:bg-gray-800">
+      <%= render "layouts/alert" %>
+      <%= render "layouts/topbar" %>
+      <%= render "layouts/sidebar" %>
+      <div
+        style="min-height:100vh;"
+        class="w-full pt-3 md:pt-7 px-4 sm:px-6 md:px-8 lg:pl-72"
+      >
+        <%= yield %>
+      </div>
+    </body>
+  <% else %>
+    <body>
+      <div
+        class="
+          w-full pt-6 min-h-screen flex flex-col items-center justify-center bg-gray-100
+          dark:bg-gray-800
+        "
+      >
+        <%= yield %>
+      </div>
+    </body>
+  <% end %>
 </html>
