@@ -109,7 +109,7 @@
 
       <div class="verifiy_certificate">
         <%= wicked_pdf_image_tag(
-          "https://barcodeapi.org/api/auto/#{@url}",
+          "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=#{@url}",
           alt: "QR Code",
           class: "qr_code",
         ) %>

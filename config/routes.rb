@@ -35,7 +35,7 @@ Rails.application.routes.draw do
   get 'courses/:id/certificate.pdf', to: 'courses#certificate', as: 'course_certificate'
 
 
-  get 'verify_certificate/:data', to: 'certificates#verify', as: 'verify_certificate'
+  get 'verify_certificate/:data', to: 'courses#verify_certificate', as: 'verify_certificate'
 
   # Search
   resources :search, only: [:index]

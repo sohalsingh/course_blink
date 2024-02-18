@@ -2,6 +2,7 @@ class CoursesController < ApplicationController
   before_action :set_course, only: [:show, :enroll, :unenroll, :lessons, :lesson_show, :quiz_show, :certificate]
   before_action :set_lesson, only: [:lesson_show]
   before_action :set_quiz, only: [:quiz_show]
+  skip_before_action :authenticate_user!, only: [:verify_certificate]
 
   def index
     @courses = Course.all
@@ -67,15 +68,38 @@ class CoursesController < ApplicationController
     # check if user is enrolled in the course
     return redirect_to course_lessons_path(@course), alert: "You are not enrolled in this course" if !current_user.enrolled_in? @course
     # check if user has completed the course
-    # return redirect_to course_lessons_path(@course), alert: "You have not completed this course" if !@course.completed_by? current_user
+    return redirect_to course_lessons_path(@course), alert: "You have not completed this course" if !@course.completed_by? current_user
     @encrypted_data = encrypt_course_and_user_id
     @user = current_user
     respond_to do |format|
       format.html
       format.pdf do
-        render pdf: "Course " + @course.title + " Certficate", template: "pdfs/certificate", page_size: 'A4', orientation: "Landscape", lowquality: true, delete_temporary_files: true, zoom: 1
+        render pdf: "Course " + @course.title + " Certficate", template: "pdfs/certificate", page_size: 'A4', orientation: "Landscape", lowquality: true, zoom: 1.2
       end
     end
+  end
+
+  def verify_certificate
+    course_id, user_id = decrypt_course_and_user_id
+    if course_id.nil? || user_id.nil?
+      @verified = false
+    end
+    @course = Course.find_by(id: course_id)
+    @user = User.find_by(id: user_id)
+
+    if @course.nil? || @user.nil?
+      @verified = false
+    end
+
+    if @course.present? and @course.completed_by? @user
+      @verified = true
+      # get completion date
+    else
+      @verified = false
+    end
+
+    # render the view without layout
+    render layout: false
   end
 
   private
@@ -84,9 +108,21 @@ class CoursesController < ApplicationController
     course_id = @course.id
     user_id = current_user.id
 
-    str = @course_id.to_s + "_" + @user_id.to_s
+    str = course_id.to_s + "_" + user_id.to_s
     crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
-    crypt.encrypt_and_sign(str)
+    encrypted_str = crypt.encrypt_and_sign(str)
+    Base64.encode64(encrypted_str)
+  end
+
+  def decrypt_course_and_user_id
+    crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base[0..31])
+    if params[:data].nil?
+      return [nil, nil]
+    end
+    decoded_str = Base64.decode64(params[:data])
+    decrypted_data = crypt.decrypt_and_verify(decoded_str) rescue nil
+    return [nil, nil] if decrypted_data.nil?
+    decrypted_data.split("_")
   end
 
   def set_lesson
